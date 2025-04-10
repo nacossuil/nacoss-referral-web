@@ -1,33 +1,44 @@
-// src/components/Hero.tsx
 import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function Hero() {
+  const scrollToHowItWorks = () => {
+    const section = document.getElementById("how-it-works");
+    if (section) section.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section className="text-center py-16 px-4">
-      <motion.div
-        className="text-4xl font-bold mb-4"
+    <section className="min-h-screen flex flex-col justify-center items-center bg-[#0f172a] text-white px-6 space-y-6 text-center">
+      <Badge className="bg-nacoss text-white text-base px-3 py-1 rounded-full">
+        🎉 April 14 – 28, 2025.
+      </Badge>
+
+      <motion.h1
+        className="text-4xl md:text-5xl font-bold max-w-2xl"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        🎉 Win ₦10,000 in the Nacoss Unilorin YouTube Referral Contest!
-      </motion.div>
+        Win ₦10,000 in the Nacoss Unilorin Referral Contest!
+      </motion.h1>
+
       <motion.p
-        className="text-lg text-muted-foreground mb-6"
+        className="text-white/40 text-lg max-w-xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        Invite your friends. Get the most referrals. Claim the bag. 💰
+        Refer your friends on YouTube, Instagram, and X. Rack up points. Climb
+        the leaderboard.
       </motion.p>
-      <motion.p
-        className="text-sm text-primary"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+
+      <Button
+        onClick={scrollToHowItWorks}
+        className="bg-nacoss hover:bg-nacoss/90 transition text-white text-base cursor-pointer px-6 py-2 mt-4"
       >
-        Contest lasts 7 days – stay tuned for start date!
-      </motion.p>
+        Enter Contest
+      </Button>
     </section>
   );
 }
