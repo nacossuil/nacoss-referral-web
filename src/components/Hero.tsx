@@ -31,6 +31,7 @@ export default function Hero() {
         Refer your friends on YouTube, Instagram, and X. Rack up points. Climb
         the leaderboard.
       </motion.p>
+      
       <Countdown />
       <Button
         onClick={scrollToHowItWorks}

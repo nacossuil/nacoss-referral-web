@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useReferralStore } from "@/store/useReferralStore";
+import ProofGuidelines from "./ProofGuildelines";
+import ShareButtons from "./share-button";
 
 interface FormData {
   name: string;
@@ -86,12 +88,18 @@ export default function JoinForm() {
   return (
     <section
       id="join-form"
-      className=" w-full bg-[#021a3c] flex items-center justify-center px-4 py-10"
+      className="w-full bg-[#021a3c] flex items-center justify-center px-4 py-10"
     >
       <div className="w-full max-w-xl">
         <h3 className="text-2xl md:text-3xl font-semibold text-white text-center mb-6">
           Join the Referral Contest
         </h3>
+
+        {/* ⚠️ FOLLOW WARNING ABOVE FORM */}
+        <div className="bg-yellow-400 text-black text-sm p-3 rounded mb-6 text-center font-medium">
+          ⚠️ Make sure to follow us on YouTube, Instagram, and X before
+          submitting — we may request proof from top referrers.
+        </div>
 
         <form
           onSubmit={handleSubmit}
@@ -123,21 +131,26 @@ export default function JoinForm() {
           >
             {loading ? "Submitting..." : "Submit"}
           </Button>
-
-          {refLink && (
-            <div className="mt-6 text-sm bg-[#1e293b] p-4 rounded text-center space-y-2">
-              🎉 You're in! Your referral link (copied):
-              <p className="text-nacoss mt-2 font-mono break-all">{refLink}</p>
-              <Button
-                variant="ghost"
-                className="text-nacoss underline text-xs mt-2"
-                onClick={reset}
-              >
-                Submit another entry
-              </Button>
-            </div>
-          )}
         </form>
+
+        {/* 🎉 Referral link + share section */}
+        {refLink && (
+          <div className="mt-6 text-sm bg-[#1e293b] p-4 rounded text-center space-y-3">
+            🎉 You're in! Your referral link (copied):
+            <p className="text-nacoss mt-2 font-mono break-all">{refLink}</p>
+            <Button
+              variant="ghost"
+              className="text-nacoss underline text-xs"
+              onClick={reset}
+            >
+              Submit another entry
+            </Button>
+            {/* 🧾 Proof Guidelines */}
+            <ProofGuidelines />
+            {/* 🔗 Share Buttons */}
+            <ShareButtons link={refLink} />
+          </div>
+        )}
       </div>
     </section>
   );

@@ -59,7 +59,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-20 px-6 bg-[#011749] text-white text-center"
+      className="min-h-screen py-20 px-6 bg-[#011749] text-white text-center flex flex-col items-center justify-center"
     >
       <h2 className="text-3xl font-bold mb-12">How It Works</h2>
       {totalReferrals !== null && (
