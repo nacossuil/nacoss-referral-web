@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Countdown from "./CountDown";
 
 export default function Hero() {
   const scrollToHowItWorks = () => {
@@ -13,7 +14,6 @@ export default function Hero() {
       <Badge className="bg-nacoss text-white text-base px-3 py-1 rounded-full">
         🎉 April 14 – 28, 2025.
       </Badge>
-
       <motion.h1
         className="text-4xl md:text-5xl font-bold max-w-2xl"
         initial={{ opacity: 0, y: -20 }}
@@ -22,7 +22,6 @@ export default function Hero() {
       >
         Win ₦10,000 in the Nacoss Unilorin Referral Contest!
       </motion.h1>
-
       <motion.p
         className="text-white/40 text-lg max-w-xl mx-auto"
         initial={{ opacity: 0 }}
@@ -32,7 +31,7 @@ export default function Hero() {
         Refer your friends on YouTube, Instagram, and X. Rack up points. Climb
         the leaderboard.
       </motion.p>
-
+      <Countdown />
       <Button
         onClick={scrollToHowItWorks}
         className="bg-nacoss hover:bg-nacoss/90 transition text-white text-base cursor-pointer px-6 py-2 mt-4"
