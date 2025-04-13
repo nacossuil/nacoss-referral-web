@@ -34,6 +34,21 @@ export default function JoinForm() {
   } = useReferralStore();
   const [loading, setLoading] = useState(false);
 
+  const getPlaceholder = (field: keyof FormData): string => {
+    switch (field) {
+      case "name":
+        return "Enter your full name";
+      case "email":
+        return "Enter your email address";
+      case "youtube":
+        return "@your_youtube_handle";
+      case "instagram":
+        return "@your_instagram_username";
+      case "x":
+        return "@your_x_username (Twitter)";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -111,11 +126,7 @@ export default function JoinForm() {
               required
               disabled={formDisabled}
               type={field === "email" ? "email" : "text"}
-              placeholder={
-                field === "x"
-                  ? "X (Twitter) handle"
-                  : field.charAt(0).toUpperCase() + field.slice(1)
-              }
+              placeholder={getPlaceholder(field)}
               value={form[field]}
               onChange={(e) => {
                 setForm({ ...form, [field]: e.target.value });
