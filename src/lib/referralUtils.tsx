@@ -1,7 +1,7 @@
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-const CAMPAIGN_START = new Date("2025-04-14");
+const CAMPAIGN_START = new Date("2025-04-13");
 const CAMPAIGN_END = new Date("2025-04-28T23:59:59");
 
 export async function isValidReferrer(username: string) {

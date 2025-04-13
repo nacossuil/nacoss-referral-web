@@ -1,33 +1,20 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase";
+import { saveAs } from "file-saver";
+import { Participant } from "@/types/participant";
 
-export async function exportReferralsAsCSV() {
-  const snap = await getDocs(collection(db, "referrals"));
-  const rows = snap.docs.map((doc) => doc.data());
+export function exportParticipantsToCSV(participants: Participant[]) {
+  if (!participants.length) return;
 
-  const headers = [
-    "name",
-    "email",
-    "youtube",
-    "instagram",
-    "x",
-    "referredBy",
-    "referralLink",
-    "createdAt",
-  ];
+  const rows = participants.map(({ id, createdAt, ...rest }) => ({
+    id,
+    ...rest,
+    createdAt: createdAt?.toDate?.().toLocaleString?.() ?? "",
+  }));
 
   const csv = [
-    headers.join(","),
-    ...rows.map((row) =>
-      headers.map((h) => `"${(row[h] ?? "").toString().replace(/"/g, "'")}"`).join(",")
-    ),
+    Object.keys(rows[0]).join(","),
+    ...rows.map((row) => Object.values(row).join(",")),
   ].join("\n");
 
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = window.URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `referrals_${Date.now()}.csv`;
-  link.click();
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  saveAs(blob, "referral_participants.csv");
 }
