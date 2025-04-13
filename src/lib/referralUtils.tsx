@@ -1,8 +1,8 @@
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-const CAMPAIGN_START = new Date("2024-04-13T00:00:00");
-const CAMPAIGN_END = new Date("2024-04-28T23:59:59");
+const CAMPAIGN_START = new Date("2025-04-14");
+const CAMPAIGN_END = new Date("2025-04-28T23:59:59");
 
 export async function isValidReferrer(username: string) {
   const q = query(
@@ -22,7 +22,7 @@ export async function isEmailUsed(email: string) {
 export function isInCampaignWindow(): boolean {
   const now = new Date();
   return now >= CAMPAIGN_START && now <= CAMPAIGN_END;
-// return true;
+  // return true;
 }
 
 // Count referrals for a username

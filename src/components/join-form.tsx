@@ -86,54 +86,59 @@ export default function JoinForm() {
   return (
     <section
       id="join-form"
-      className="bg-[#0f172a] text-white p-6 rounded-lg max-w-xl mx-auto mt-20"
+      className=" w-full bg-[#021a3c] flex items-center justify-center px-4 py-10"
     >
-      <h3 className="text-2xl font-semibold mb-6 text-center">
-        Join the Referral Contest
-      </h3>
+      <div className="w-full max-w-xl">
+        <h3 className="text-2xl md:text-3xl font-semibold text-white text-center mb-6">
+          Join the Referral Contest
+        </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {(Object.keys(form) as (keyof FormData)[]).map((field) => (
-          <Input
-            key={field}
-            required
-            disabled={formDisabled}
-            type={field === "email" ? "email" : "text"}
-            placeholder={
-              field === "x"
-                ? "X (Twitter) handle"
-                : field.charAt(0).toUpperCase() + field.slice(1)
-            }
-            value={form[field]}
-            onChange={(e) => {
-              setForm({ ...form, [field]: e.target.value });
-            }}
-            className="bg-[#1e293b] border border-gray-700 text-white disabled:opacity-50"
-          />
-        ))}
-
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-nacoss hover:bg-nacoss/80"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-[#0f172a] text-white p-6 md:p-8 rounded-lg space-y-4"
         >
-          {loading ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+          {(Object.keys(form) as (keyof FormData)[]).map((field) => (
+            <Input
+              key={field}
+              required
+              disabled={formDisabled}
+              type={field === "email" ? "email" : "text"}
+              placeholder={
+                field === "x"
+                  ? "X (Twitter) handle"
+                  : field.charAt(0).toUpperCase() + field.slice(1)
+              }
+              value={form[field]}
+              onChange={(e) => {
+                setForm({ ...form, [field]: e.target.value });
+              }}
+              className="bg-[#1e293b] border border-gray-700 text-white disabled:opacity-50"
+            />
+          ))}
 
-      {refLink ? (
-        <div className="mt-6 text-sm bg-[#1e293b] p-4 rounded text-center space-y-2">
-          🎉 You're in! Your referral link (copied):
-          <p className="text-nacoss mt-2 font-mono break-all">{refLink}</p>
           <Button
-            variant="ghost"
-            className="text-nacoss underline text-xs mt-2"
-            onClick={reset}
+            type="submit"
+            disabled={loading}
+            className="w-full bg-nacoss hover:bg-nacoss/80"
           >
-            Submit another entry
+            {loading ? "Submitting..." : "Submit"}
           </Button>
-        </div>
-      ) : null}
+
+          {refLink && (
+            <div className="mt-6 text-sm bg-[#1e293b] p-4 rounded text-center space-y-2">
+              🎉 You're in! Your referral link (copied):
+              <p className="text-nacoss mt-2 font-mono break-all">{refLink}</p>
+              <Button
+                variant="ghost"
+                className="text-nacoss underline text-xs mt-2"
+                onClick={reset}
+              >
+                Submit another entry
+              </Button>
+            </div>
+          )}
+        </form>
+      </div>
     </section>
   );
 }
