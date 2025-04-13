@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useReferralStore } from "@/store/useReferralStore";
-import ProofGuidelines from "./ProofGuildelines";
+import ProofGuidelines from "./proof-guidelines";
 import ShareButtons from "./share-button";
 
 interface FormData {

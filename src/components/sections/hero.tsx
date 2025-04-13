@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Countdown from "./CountDown";
+import Countdown from "./countdown";
+
 
 export default function Hero() {
   const scrollToHowItWorks = () => {
