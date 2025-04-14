@@ -9,15 +9,10 @@ export function FollowUsButtons({
 }) {
   const { markClicked, allClicked } = useFollowClicks();
 
-  // Notify parent of click status
   if (onAllClickedChange) onAllClickedChange(allClicked);
 
   return (
     <div className="mt-4 space-y-2 text-center">
-      <p className="text-white text-sm mb-2 font-medium">
-        📢 Don’t forget to follow us on all platforms to qualify:
-      </p>
-
       <div className="flex flex-wrap justify-center gap-3">
         <Button
           variant="ghost"

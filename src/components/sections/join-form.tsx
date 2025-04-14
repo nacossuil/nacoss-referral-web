@@ -91,6 +91,7 @@ export default function JoinForm() {
             </p>
 
             <FollowUsButtons onAllClickedChange={setCheckboxAllowed} />
+            <ProofGuidelines />
 
             <label className="flex items-center justify-center gap-2 text-white/80 text-sm">
               <input
@@ -125,7 +126,6 @@ export default function JoinForm() {
                 </p>
                 <p className="text-nacoss font-mono break-all">{refLink}</p>
 
-                <ProofGuidelines />
                 <ShareButtons link={refLink} />
                 <Button
                   variant="ghost"
