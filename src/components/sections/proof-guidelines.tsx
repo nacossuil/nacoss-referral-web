@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-export default function ProofGuidelines() {
+export function ProofGuidelines() {
   return (
     <Dialog>
       <DialogTrigger asChild>

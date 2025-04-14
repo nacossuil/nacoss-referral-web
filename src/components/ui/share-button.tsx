@@ -11,7 +11,7 @@ interface ShareButtonsProps {
   link: string;
 }
 
-export default function ShareButtons({ link }: ShareButtonsProps) {
+export function ShareButtons({ link }: ShareButtonsProps) {
   const message = encodeURIComponent(
     `Kindly follow Nacoss Unilorin on YouTube, IG and X. Use my link to join the referral contest and win ₦10,000: ${link}`
   );

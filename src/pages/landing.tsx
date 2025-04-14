@@ -1,6 +1,6 @@
 import { PrizeBadge } from "@/components/sections";
 import Dashboard from "@/components/sections/dashboard";
-import FAQ from "@/components/sections/faq";
+import FAQ from "@/components/ui/faq";
 import Hero from "@/components/sections/hero";
 import HowItWorks from "@/components/sections/how-it-works";
 import JoinForm from "@/components/sections/join-form";
