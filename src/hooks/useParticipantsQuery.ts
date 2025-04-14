@@ -3,7 +3,6 @@ import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Participant } from "@/types/participant";
 import { toast } from "sonner";
-// import { User } from "firebase/auth";
 
 type AdminUser = { name: string; email: string } | null;
 

@@ -12,4 +12,8 @@ export interface Participant {
   createdAt: Timestamp;
   verified?: boolean;
   adminNote?: string;
+  followConfirmed?: boolean; // ✅ Add this
+  clickedYoutube?: boolean; // ✅ Optional, if you're tracking these
+  clickedInstagram?: boolean;
+  clickedX?: boolean;
 }

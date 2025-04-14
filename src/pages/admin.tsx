@@ -1,27 +1,49 @@
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { FaLock } from "react-icons/fa6";
 import { useParticipantsQuery } from "@/hooks/useParticipantsQuery";
+import { Button } from "@/components/ui/button";
+import { FaLock } from "react-icons/fa6";
+import { useState, useMemo } from "react";
+import { exportParticipantsToCSV } from "@/lib/exportCSV";
+import { ParticipantFilters } from "@/components/admin/participants-filter";
+import { ParticipantTable } from "@/components/admin/participant-table";
+import { PaginationControls } from "@/components/admin/pagination-controls";
+import { useFilteredParticipants } from "@/hooks/useFilteredParticipants";
 
 export default function AdminPage() {
   const { user, login, logout } = useAdminAuth();
-  const { participants, loading, handleToggle, handleNoteChange } =
+  const { participants, handleToggle, handleNoteChange } =
     useParticipantsQuery(user);
+
+  const [search, setSearch] = useState("");
+  const [filterVerified, setFilterVerified] = useState<
+    "all" | "verified" | "unverified"
+  >("all");
+  const [filterFollowed, setFilterFollowed] = useState<
+    "all" | "followed" | "unfollowed"
+  >("all");
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  const filtered = useFilteredParticipants(
+    participants,
+    search,
+    filterVerified,
+    filterFollowed
+  );
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page]);
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0f172a] text-white text-center px-6">
-        <div>
-          <div className="text-2xl font-semibold mb-4 flex items-center justify-center gap-2">
-            <FaLock /> <h2>Admin Login</h2>
-          </div>
-          <Button
-            onClick={login}
-            className="bg-nacoss text-base hover:bg-nacoss/90"
-          >
+      <div className="min-h-screen flex items-center justify-center bg-[#0f172a] text-white px-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold flex items-center justify-center gap-2 mb-4">
+            <FaLock /> Admin Login
+          </h2>
+          <Button onClick={login} className="bg-nacoss">
             Login with Google
           </Button>
         </div>
@@ -31,81 +53,40 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#0f172a] text-white px-4 md:px-10 py-10">
-      <div className="w-full mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+      <div className="w-full mx-auto space-y-4 mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <Button
-            variant="ghost"
-            className="text-red-500 hover:text-white hover:bg-red-500 cursor-pointer"
             onClick={logout}
+            className="text-red-500 hover:text-white hover:bg-red-500"
           >
             Logout
           </Button>
         </div>
 
-        <div className="overflow-auto bg-[#1e293b] rounded-xl shadow-lg text-sm">
-          <div className="min-w-[800px]">
-            <div className="grid grid-cols-9 gap-4 p-4 border-b border-nacoss font-semibold text-nacoss sticky top-0 bg-[#1e293b] z-10">
-              <div>Name</div>
-              <div>Email</div>
-              <div>YouTube</div>
-              <div>Instagram</div>
-              <div>X</div>
-              <div>Referrer</div>
-              <div>Submitted</div>
-              <div>Verified</div>
-              <div>Note</div>
-            </div>
-
-            {loading ? (
-              <div className="p-6 text-center text-white/70">Loading...</div>
-            ) : participants.length === 0 ? (
-              <div className="p-6 text-center text-muted-foreground">
-                No participants found.
-              </div>
-            ) : (
-              participants.map((participant) => (
-                <div
-                  key={participant.id}
-                  className="grid grid-cols-9 gap-4 p-4 border-b border-white/10 items-center"
-                >
-                  <div className="break-words">{participant.name}</div>
-                  <div className="break-words">{participant.email}</div>
-                  <div>{participant.youtube}</div>
-                  <div>{participant.instagram}</div>
-                  <div>{participant.x}</div>
-                  <div>{participant.referredBy || "—"}</div>
-                  <div className="text-muted-foreground text-xs">
-                    {participant.createdAt?.toDate?.()?.toLocaleString?.() ||
-                      "—"}
-                  </div>
-                  <div>
-                    <Switch
-                      checked={participant.verified}
-                      onCheckedChange={() =>
-                        handleToggle(
-                          participant.id,
-                          participant.verified ?? false
-                        )
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Textarea
-                      className="text-sm bg-[#0f172a] border border-nacoss"
-                      defaultValue={participant.adminNote}
-                      onBlur={(e) =>
-                        handleNoteChange(participant.id, e.target.value)
-                      }
-                      placeholder="Note..."
-                    />
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+        <ParticipantFilters
+          search={search}
+          setSearch={setSearch}
+          filterVerified={filterVerified}
+          setFilterVerified={setFilterVerified}
+          filterFollowed={filterFollowed}
+          setFilterFollowed={setFilterFollowed}
+          onExport={() => exportParticipantsToCSV(filtered)}
+        />
       </div>
+
+      <ParticipantTable
+        participants={paginated}
+        handleToggle={handleToggle}
+        handleNoteChange={handleNoteChange}
+      />
+
+      <PaginationControls
+        page={page}
+        total={filtered.length}
+        pageSize={pageSize}
+        setPage={setPage}
+      />
     </div>
   );
 }
