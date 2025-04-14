@@ -8,7 +8,8 @@ export const handleFinalConfirm = async (
   form: FormData,
   referredBy: string | null,
   refLink: string | null,
-  disableForm: () => void
+  disableForm: () => void,
+  setFinalConfirmed: (value: boolean) => void
 ) => {
   if (!followConfirmed) {
     toast.error("Please confirm that you've followed all accounts.");
@@ -27,6 +28,7 @@ export const handleFinalConfirm = async (
     disableForm();
     navigator.clipboard.writeText(refLink!);
     toast.success("You're in! Link copied to clipboard.");
+    setFinalConfirmed(true);
   } catch (error) {
     toast.error("Something went wrong. Please try again.");
     console.error("Error saving referral: ", error);

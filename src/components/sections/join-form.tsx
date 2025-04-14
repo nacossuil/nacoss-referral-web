@@ -13,15 +13,8 @@ import { useState } from "react";
 
 export default function JoinForm() {
   const referredBy = useReferral();
-  const {
-    form,
-    setForm,
-    refLink,
-    setRefLink,
-    formDisabled,
-    disableForm,
-    reset,
-  } = useReferralStore();
+  const { form, setForm, refLink, setRefLink, formDisabled, disableForm } =
+    useReferralStore();
   const {
     showFollowStep,
     setShowFollowStep,
@@ -30,6 +23,7 @@ export default function JoinForm() {
   } = useFollowConfirmation();
   const { getPlaceholder } = useFormFields();
   const [checkboxAllowed, setCheckboxAllowed] = useState(false);
+  const [finalConfirmed, setFinalConfirmed] = useState(false);
 
   return (
     <section
@@ -111,7 +105,8 @@ export default function JoinForm() {
                   form,
                   referredBy,
                   refLink,
-                  disableForm
+                  disableForm,
+                  setFinalConfirmed
                 )
               }
               className="w-full max-w-fit bg-nacoss mt-2 hover:bg-nacoss/80"
@@ -119,7 +114,7 @@ export default function JoinForm() {
               Confirm and Get Referral Link
             </Button>
 
-            {followConfirmed && (
+            {finalConfirmed && (
               <>
                 <p className="text-white/80 text-xs mt-4">
                   Here’s your referral link:
@@ -127,13 +122,6 @@ export default function JoinForm() {
                 <p className="text-nacoss font-mono break-all">{refLink}</p>
 
                 <ShareButtons link={refLink} />
-                <Button
-                  variant="ghost"
-                  className="text-nacoss underline text-xs"
-                  onClick={reset}
-                >
-                  Submit another entry
-                </Button>
               </>
             )}
           </div>
