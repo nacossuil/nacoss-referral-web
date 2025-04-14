@@ -14,33 +14,35 @@ export function ParticipantTable({
   handleNoteChange,
 }: Props) {
   return (
-    <div className="overflow-auto bg-[#1e293b] rounded-xl shadow-lg text-sm">
-      <div className="min-w-[900px]">
-        <div className="grid grid-cols-10 gap-4 p-4 border-b border-nacoss text-nacoss font-semibold sticky top-0 bg-[#1e293b] z-10">
-          <div>Name</div>
-          <div>Email</div>
-          <div>YouTube</div>
-          <div>Instagram</div>
-          <div>X</div>
-          <div>Referrer</div>
-          <div>Submitted</div>
-          <div>Followed?</div>
-          <div>Verified</div>
+    <div className="overflow-auto rounded-xl shadow-lg text-sm border border-white/20">
+      <div className="min-w-[1000px]">
+        {/* Table Head */}
+        <div className="grid grid-cols-10 gap-4 p-3 bg-[#1e293b] border-b border-white/20 font-semibold text-nacoss sticky top-0 z-10">
+          <div className="border-r border-white/10">Name</div>
+          <div className="border-r border-white/10">Email</div>
+          <div className="border-r border-white/10">YouTube</div>
+          <div className="border-r border-white/10">Instagram</div>
+          <div className="border-r border-white/10">X</div>
+          <div className="border-r border-white/10">Referrer</div>
+          <div className="border-r border-white/10">Submitted</div>
+          <div className="border-r border-white/10">Followed?</div>
+          <div className="border-r border-white/10">Verified</div>
           <div>Note</div>
         </div>
 
+        {/* Table Rows */}
         {participants.map((p) => (
           <div
             key={p.id}
-            className="grid grid-cols-10 gap-4 p-4 border-b border-white/10 items-center"
+            className="grid grid-cols-10 gap-4 p-3 border-b border-white/10 items-start"
           >
-            <div>{p.name}</div>
-            <div>{p.email}</div>
-            <div>{p.youtube}</div>
-            <div>{p.instagram}</div>
-            <div>{p.x}</div>
-            <div>{p.referredBy || "—"}</div>
-            <div className="text-muted-foreground text-xs">
+            <div className="break-words">{p.name}</div>
+            <div className="break-words">{p.email}</div>
+            <div className="break-words">{p.youtube}</div>
+            <div className="break-words">{p.instagram}</div>
+            <div className="break-words">{p.x}</div>
+            <div className="break-words">{p.referredBy || "—"}</div>
+            <div className="text-muted-foreground text-xs break-words">
               {p.createdAt?.toDate()?.toLocaleString()}
             </div>
             <div className="text-center">{p.followConfirmed ? "✅" : "❌"}</div>

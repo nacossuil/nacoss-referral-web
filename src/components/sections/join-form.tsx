@@ -1,29 +1,61 @@
+import { useEffect, useState } from "react";
 import { useReferral } from "@/hooks/useReferral";
 import { useReferralStore } from "@/store/useReferralStore";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useFollowConfirmation } from "@/hooks/useFollowConfirmation";
 import { useFormFields } from "@/hooks/useFormFields";
 import { handleSubmit } from "@/handlers/handleSubmit";
 import { handleFinalConfirm } from "@/handlers/handleFinalConfirm";
-import { ProofGuidelines } from "./proof-guidelines";
+import { hasUserAlreadyReferred } from "@/lib/referralUtils";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ShareButtons } from "../ui/share-button";
 import { FollowUsButtons } from "../ui/follow-buttons";
-import { useState } from "react";
+import { ProofGuidelines } from "./proof-guidelines";
 
 export default function JoinForm() {
   const referredBy = useReferral();
-  const { form, setForm, refLink, setRefLink, formDisabled, disableForm } =
-    useReferralStore();
+  const {
+    form,
+    setForm,
+    refLink,
+    setRefLink,
+    formDisabled,
+    disableForm,
+    reset,
+  } = useReferralStore();
+
   const {
     showFollowStep,
     setShowFollowStep,
     followConfirmed,
     setFollowConfirmed,
   } = useFollowConfirmation();
+
   const { getPlaceholder } = useFormFields();
   const [checkboxAllowed, setCheckboxAllowed] = useState(false);
   const [finalConfirmed, setFinalConfirmed] = useState(false);
+
+  // 👇 Fix for stale persisted state when Firestore is wiped
+  useEffect(() => {
+    const checkMismatch = async () => {
+      if (formDisabled && form.email) {
+        const exists = await hasUserAlreadyReferred(
+          form.email,
+          referredBy ?? ""
+        );
+        if (!exists) {
+          toast.info(
+            "Your previous submission couldn’t be found. You can submit again."
+          );
+          reset();
+        }
+      }
+    };
+
+    checkMismatch();
+  }, [formDisabled, form.email, referredBy, reset]);
 
   return (
     <section
@@ -99,6 +131,7 @@ export default function JoinForm() {
             </label>
 
             <Button
+              disabled={!followConfirmed}
               onClick={() =>
                 handleFinalConfirm(
                   followConfirmed,
@@ -109,7 +142,7 @@ export default function JoinForm() {
                   setFinalConfirmed
                 )
               }
-              className="w-full max-w-fit bg-nacoss mt-2 hover:bg-nacoss/80"
+              className="w-full max-w-fit bg-nacoss mt-2 hover:bg-nacoss/80 disabled:opacity-50"
             >
               Confirm and Get Referral Link
             </Button>
@@ -120,7 +153,6 @@ export default function JoinForm() {
                   Here’s your referral link:
                 </p>
                 <p className="text-nacoss font-mono break-all">{refLink}</p>
-
                 <ShareButtons link={refLink} />
               </>
             )}

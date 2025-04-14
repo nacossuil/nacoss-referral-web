@@ -1,4 +1,6 @@
 import { FormData } from "@/types/form";
+import { db } from "@/lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import {
   hasUserAlreadyReferred,
@@ -20,16 +22,12 @@ export const handleSubmit = async (
     return;
   }
 
-  if (!form.email || !form.youtube) {
-    toast.error("Email and YouTube handle are required.");
-    return;
-  }
+  if (!form.email || !form.youtube) return;
 
   const alreadyUsed = await hasUserAlreadyReferred(
     form.email,
     referredBy ?? ""
   );
-
   if (alreadyUsed) {
     toast.error("You’ve already used this referral link.");
     return;
@@ -38,7 +36,21 @@ export const handleSubmit = async (
   const username = form.youtube || form.name.replace(/\s+/g, "_");
   const referralLink = `${window.location.origin}?ref=${username}`;
 
-  setRefLink(referralLink);
-  setShowFollowStep(true);
-  disableForm();
+  try {
+    await addDoc(collection(db, "referrals"), {
+      ...form,
+      referredBy: referredBy ?? null,
+      referralLink,
+      createdAt: new Date(),
+    });
+
+    setRefLink(referralLink);
+    setShowFollowStep(true);
+    disableForm();
+    navigator.clipboard.writeText(referralLink);
+    toast.success("You're in! Link copied to clipboard.");
+  } catch (error) {
+    toast.error("Something went wrong. Please try again.");
+    console.error("Error adding document: ", error);
+  }
 };
