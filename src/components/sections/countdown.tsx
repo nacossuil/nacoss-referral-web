@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const deadline = new Date(2025, 3, 28, 23, 59, 59).getTime();
+const deadline = new Date(2025, 4, 13, 9, 0, 0).getTime();
 
 function getTimeLeft() {
   const now = new Date();

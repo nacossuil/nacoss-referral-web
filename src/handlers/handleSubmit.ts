@@ -18,7 +18,7 @@ export const handleSubmit = async (
   e.preventDefault();
 
   if (!isInCampaignWindow()) {
-    toast.error("This contest is only open from April 14–28.");
+    toast.error("This contest is only open from April 23 - May 13.");
     return;
   }
 

@@ -6,7 +6,7 @@ export default function Leaderboard() {
     { instagram: string; count: number }[]
   >([]);
   const now = new Date();
-  const showWinner = now > new Date("2025-04-28T23:59:59");
+  const showWinner = now > new Date("2025-05-13T09:00:00");
 
   useEffect(() => {
     getTopReferrersDuringCampaignWithHandles().then(setReferrers);
@@ -49,7 +49,7 @@ export default function Leaderboard() {
           </div>
         ) : (
           <p className="text-muted-foreground mt-6 text-center italic">
-            Winner will be announced after April 28th.
+            Winner will be announced after May 13th.
           </p>
         )}
       </div>

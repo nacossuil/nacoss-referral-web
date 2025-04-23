@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex flex-col justify-center items-center bg-[#0f172a] text-white px-6 space-y-6 text-center">
       <Badge className="bg-nacoss text-white text-base px-3 py-1 rounded-full">
-        🎉 April 14 – 28, 2025.
+        🎉 April 23, 2025 – May 13, 2025.
       </Badge>
       <motion.h1
         className="text-4xl md:text-5xl font-bold max-w-2xl"
