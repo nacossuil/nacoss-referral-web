@@ -33,7 +33,7 @@ export function FollowUsButtons({
           className="text-pink-500 border border-pink-500"
           onClick={() => {
             markClicked("instagram");
-            window.open("https://instagram.com/nacoss_unilorin", "_blank");
+            window.open("https://instagram.com/nacoss.unilorin", "_blank");
           }}
         >
           <FaInstagram className="mr-2" /> Follow on Instagram
